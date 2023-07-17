@@ -19,7 +19,7 @@ setup(
         # "json",
         # "yaml",
         # "datetime"
-        "hashlib",
+        # "hashlib",
         "hmac",
         "itertools",
         "pandas",
