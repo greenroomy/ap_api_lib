@@ -19,5 +19,12 @@ setup(
         # "json",
         # "yaml",
         # "datetime"
+        "hashlib",
+        "hmac",
+        "itertools",
+        "pandas",
+        "urllib3",
+        "requests",
+        "pyyaml"
     ],
 )
