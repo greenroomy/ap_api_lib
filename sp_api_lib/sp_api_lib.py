@@ -343,11 +343,13 @@ class SpApiMethod(Amazon):
     @check_expire
     def get_search_catalog_items(self, code, identifier='asin', includeddata='summaries'):
         """
-        :param code: ASIN | JAN | Set JAN code or ASIN.
-        :param identifier: 'jan' | 'asin' | For identifying 'code'.
-        :param includeddata: 'summaries' | 'dimensions' | 'identifiers' | 'images' | 'productTypes' | 'relationships'
-        | 'salesRanks' | 'vendorDetails'| Separate with ',' when you request multiple info. Default value is 'summaries'
-        :return: Catalog information
+        :param code: ASIN code or JAN code
+        :param identifier: 'jan' or 'asin'
+                            For identifying 'code'.
+        :param includeddata: 'summaries' or 'dimensions' or 'identifiers' or 'images' or 'productTypes' or 'relationships'
+        or 'salesRanks' or 'vendorDetails'
+        Separate with ',' when you request multiple info. Default value is 'summaries'
+        :return: json
         Rate(requests per sec): 0.5
         Burst: 1
         """
@@ -410,7 +412,7 @@ class SpApiMethod(Amazon):
         print('Response headers :\r\n' + str(api_response.headers))
         print('Response json :\r\n' + str(response_json))
 
-        return response_dict
+        return response_json
 
     @check_expire
     def get_items_offers_batch(self, asin_list):
