@@ -261,11 +261,14 @@ class SpApiMethod(Amazon):
     def get_item_offers_for_asin(self, asin_code, data_type='json'):
         """
         :param1 asin_code: ASIN
-        :param2 data_type: json or
+        :param2 data_type: json or lowest_price or cart_price or number_of_offers
+                default: json
         :return: depent on data_type
-        data_type = json: return json
-        data_type = lowest_price: return int(lowest price)
-        data_type = cart_price: return int(cart price)
+                data_type = json: return json
+                data_type = lowest_price: return int(lowest price)
+                data_type = cart_price: return int(cart price)
+                data_type = number_of_offers: return int(number of offers)
+
         Rate(request per sec): 0.5
         Burst: 1
         """
@@ -320,12 +323,22 @@ class SpApiMethod(Amazon):
         except KeyError:
             cart_price = None
 
+        # 出品者数を取得
+        try:
+            number_of_offers = int(response_dict['payload']['Summary']['NumberOfOffers'][0]['OfferCount'])
+        except KeyError:
+            number_of_offers = None
+
         if data_type == 'json':
             return response_json
         elif data_type == 'lowest_price':
             return lowest_price
         elif data_type == 'cart_price':
             return cart_price
+        elif data_type == 'number_of_offers':
+            return number_of_offers
+        else:
+            return response_json
 
     @check_expire
     def get_search_catalog_items(self, code, identifier='asin', includeddata='summaries'):
