@@ -264,7 +264,8 @@ class SpApiMethod(Amazon):
         :param2 data_type: json or
         :return: depent on data_type
         data_type = json: return json
-        data_type = lowest_price: return lowest price
+        data_type = lowest_price: return int(lowest price)
+        data_type = cart_price: return int(cart price)
         Rate(request per sec): 0.5
         Burst: 1
         """
@@ -313,10 +314,18 @@ class SpApiMethod(Amazon):
         except KeyError:
             lowest_price = None
 
+        # Cart priceを取得
+        try:
+            cart_price = int(response_dict['payload']['Summary']['BuyBoxPrices'][0]['LandedPrice']['Amount'])
+        except KeyError:
+            cart_price = None
+
         if data_type == 'json':
             return response_json
         elif data_type == 'lowest_price':
             return lowest_price
+        elif data_type == 'cart_price':
+            return cart_price
 
     @check_expire
     def get_search_catalog_items(self, code, identifier='asin', includeddata='summaries'):
