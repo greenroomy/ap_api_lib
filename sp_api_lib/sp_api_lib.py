@@ -258,10 +258,13 @@ class SpApiMethod(Amazon):
         return wrapper
 
     @check_expire
-    def get_item_offers_for_asin(self, asin_code):
+    def get_item_offers_for_asin(self, asin_code, data_type='json'):
         """
-        :param asin_code: ASIN
-        :return: api_response
+        :param1 asin_code: ASIN
+        :param2 data_type: json or
+        :return: depent on data_type
+        data_type = json: return json
+        data_type = lowest_price: return lowest price
         Rate(request per sec): 0.5
         Burst: 1
         """
@@ -304,7 +307,13 @@ class SpApiMethod(Amazon):
         print('Response headers :\r\n' + str(api_response.headers))
         print('Response json :\r\n' + str(response_json))
 
-        return api_response
+        # Lowest priceを取得
+        lowest_price = response_dict['Summary']['LowestPrices'][0]['LandedPrice']['Amount']
+
+        if data_type == 'json':
+            return response_json
+        elif data_type == 'lowest_price':
+            return lowest_price
 
     @check_expire
     def get_search_catalog_items(self, code, identifier='asin', includeddata='summaries'):
