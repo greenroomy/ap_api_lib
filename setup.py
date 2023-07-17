@@ -21,7 +21,7 @@ setup(
         # "datetime"
         # "hashlib",
         "hmac",
-        "itertools",
+        # "itertools",
         "pandas",
         "urllib3",
         "requests",
