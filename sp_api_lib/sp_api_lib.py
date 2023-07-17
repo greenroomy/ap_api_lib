@@ -309,7 +309,7 @@ class SpApiMethod(Amazon):
 
         # Lowest priceを取得
         try:
-            lowest_price = response_dict['payload']['Summary']['LowestPrices'][0]['LandedPrice']['Amount']
+            lowest_price = int(response_dict['payload']['Summary']['LowestPrices'][0]['LandedPrice']['Amount'])
         except KeyError:
             lowest_price = None
 
