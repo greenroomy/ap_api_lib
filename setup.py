@@ -8,16 +8,16 @@ setup(
     author_email='greenroom1973@gmail.com',
     packages=find_packages(),
     install_requires=[
-        "collections",
-        "hashlib",
-        "hmac",
-        "time",
-        "itertools",
-        "pandas",
-        "urllib.parse",
-        "requests",
-        "json",
-        "yaml",
-        "datetime"
+        # "collections",
+        # "hashlib",
+        # "hmac",
+        # "time",
+        # "itertools",
+        # "pandas",
+        # "urllib.parse",
+        # "requests",
+        # "json",
+        # "yaml",
+        # "datetime"
     ],
 )
