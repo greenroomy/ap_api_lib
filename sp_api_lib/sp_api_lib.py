@@ -308,7 +308,10 @@ class SpApiMethod(Amazon):
         print('Response json :\r\n' + str(response_json))
 
         # Lowest priceを取得
-        lowest_price = response_dict['Summary']['LowestPrices'][0]['LandedPrice']['Amount']
+        try:
+            lowest_price = response_dict['payload']['Summary']['LowestPrices'][0]['LandedPrice']['Amount']
+        except KeyError:
+            lowest_price = None
 
         if data_type == 'json':
             return response_json
