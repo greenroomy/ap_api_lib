@@ -33,6 +33,8 @@ class Amazon(object):
         self.time_gettoken = None
         self.token = None
         self.amazon_url = 'https://www.amazon.co.jp/dp/'
+        self.retry_interval = 10
+        self.retry_count = 3
 
     # トークンを取得するクラスメソッド
     def get_token(self):
@@ -453,28 +455,32 @@ class SpApiMethod(Amazon):
         # APIリクエストURLの生成
         end_point = self.spapi_endpoint + canonical_uri
 
-        # リクエスト送信
-        print('===Request===')
-        print('Request URL = ' + end_point)
-        print('Request headers = ' + str(headers))
-        print('Request parameters = ' + str(request_parameters))
-        api_response = requests.post(end_point, data=request_parameters, headers=headers)
-        print('Response status : ' + str(api_response.status_code))
-        print('Response headers :\r\n' + str(api_response.headers))
-        print('Response body :\r\n' + str(api_response.content))
-
-        # Wait
-        time.sleep(2)
-
-        # レスポンスをdictに
-        response_dict = json.loads(api_response.text)
-
-        # 加工
-        response_json = json.dumps(response_dict, indent=4, ensure_ascii=False)
-
-        print('Response json :\r\n' + str(response_json))
-
-        return api_response
+        # エラーの時はリトライ
+        for i in range(0, self.retry_count):
+            try:
+                # リクエスト送信
+                print('===Request===')
+                print('Request URL = ' + end_point)
+                print('Request headers = ' + str(headers))
+                print('Request parameters = ' + str(request_parameters))
+                api_response = requests.post(end_point, data=request_parameters, headers=headers)
+                print('Response status : ' + str(api_response.status_code))
+                print('Response headers :\r\n' + str(api_response.headers))
+                print('Response body :\r\n' + str(api_response.content))
+                api_response.raise_for_status()
+                time.sleep(5)
+                return api_response
+                break
+            except HTTPError:
+                if i + 1 == self.retry_count:
+                    print("リトライエラー:最大回数{}回のリトライに失敗しました".format(self.retry_count))
+                    return api_response
+                    break
+                    # raise Exception
+                time.sleep(self.retry_interval)
+                print("HTTP Error:", HTTPError)
+                print("リトライ回数:{}回目です".format(i + 1))
+                continue
 
     # ASINリストを元にFBA手数料を返すクラスメソッド
     @check_expire
