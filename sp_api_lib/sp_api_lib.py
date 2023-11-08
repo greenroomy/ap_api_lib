@@ -412,7 +412,7 @@ class SpApiMethod(Amazon):
         print('=== Response detail -get_item_offers_for_asin ===')
         print('Response status : ' + str(api_response.status_code))
         print('Response headers :\r\n' + str(api_response.headers))
-        print('Response json :\r\n' + str(response_json))
+        # print('Response json :\r\n' + str(response_json))
 
         return response_json
 
@@ -462,11 +462,11 @@ class SpApiMethod(Amazon):
                 print('===Request===')
                 print('Request URL = ' + end_point)
                 print('Request headers = ' + str(headers))
-                print('Request parameters = ' + str(request_parameters))
+                # print('Request parameters = ' + str(request_parameters))
                 api_response = requests.post(end_point, data=request_parameters, headers=headers)
                 print('Response status : ' + str(api_response.status_code))
                 print('Response headers :\r\n' + str(api_response.headers))
-                print('Response body :\r\n' + str(api_response.content))
+                # print('Response body :\r\n' + str(api_response.content))
                 api_response.raise_for_status()
                 time.sleep(5)
                 return api_response
@@ -538,11 +538,11 @@ class SpApiMethod(Amazon):
         print('===Request===')
         print('Request URL = ' + end_point)
         print('Request headers = ' + str(headers))
-        print('Request parameters = ' + str(request_parameters))
+        # print('Request parameters = ' + str(request_parameters))
         api_response = requests.post(end_point, data=request_parameters, headers=headers)
         print('Response status : ' + str(api_response.status_code))
         print('Response headers :\r\n' + str(api_response.headers))
-        print('Response body :\r\n' + str(api_response.content))
+        # print('Response body :\r\n' + str(api_response.content))
 
         # Wait
         time.sleep(2)
@@ -553,7 +553,7 @@ class SpApiMethod(Amazon):
         # 加工
         response_json = json.dumps(response_dict, indent=4, ensure_ascii=False)
 
-        print('Response json :\r\n' + str(response_json))
+        # print('Response json :\r\n' + str(response_json))
 
         return api_response
 
@@ -641,7 +641,7 @@ class SpApiMethod(Amazon):
         if len(target_response):
             target_json = json.dumps(target_response, indent=4, ensure_ascii=False)
             df = pandas.read_json(target_json)
-            print(df.head())
+            # print(df.head())
             if isinstance(code, str):
                 asin_dict[code] = df.loc[0, 'asin']
             elif isinstance(code, list):
@@ -691,7 +691,7 @@ class SpApiMethod(Amazon):
                 except:
                     estimate_fee = None
                 full_dict[asin] = estimate_fee
-        print(full_dict)
+        # print(full_dict)
         return full_dict
 
 
